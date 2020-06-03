@@ -13,6 +13,7 @@
 		BDFB1C3E248748160084776C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDFB1C3C248748160084776C /* Main.storyboard */; };
 		BDFB1C40248748170084776C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDFB1C3F248748170084776C /* Assets.xcassets */; };
 		BDFB1C43248748170084776C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDFB1C41248748170084776C /* LaunchScreen.storyboard */; };
+		BDFB1C4E2487491D0084776C /* RedditModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFB1C4D2487491D0084776C /* RedditModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		BDFB1C3F248748170084776C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BDFB1C42248748170084776C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BDFB1C44248748170084776C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BDFB1C4D2487491D0084776C /* RedditModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedditModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,9 @@
 		BDFB1C35248748150084776C /* Luvit-challenge */ = {
 			isa = PBXGroup;
 			children = (
+				BDFB1C4C248748780084776C /* Controller */,
+				BDFB1C4B248748730084776C /* View */,
+				BDFB1C4A2487485D0084776C /* Model */,
 				BDFB1C36248748150084776C /* AppDelegate.swift */,
 				BDFB1C38248748150084776C /* SceneDelegate.swift */,
 				BDFB1C3A248748150084776C /* ViewController.swift */,
@@ -65,6 +70,28 @@
 				BDFB1C44248748170084776C /* Info.plist */,
 			);
 			path = "Luvit-challenge";
+			sourceTree = "<group>";
+		};
+		BDFB1C4A2487485D0084776C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BDFB1C4D2487491D0084776C /* RedditModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		BDFB1C4B248748730084776C /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BDFB1C4C248748780084776C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,6 +166,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BDFB1C3B248748150084776C /* ViewController.swift in Sources */,
+				BDFB1C4E2487491D0084776C /* RedditModel.swift in Sources */,
 				BDFB1C37248748150084776C /* AppDelegate.swift in Sources */,
 				BDFB1C39248748150084776C /* SceneDelegate.swift in Sources */,
 			);
