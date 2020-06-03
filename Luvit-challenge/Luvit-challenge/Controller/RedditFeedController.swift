@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol LoggableClass {
-    func logger(message: String)
-}
-
 class RedditFeed : LoggableClass {
     
     //MARK: - Properties
