@@ -65,24 +65,36 @@ class ViewController: UIViewController, UICollectionViewDelegate {
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.redditFeed.redditPosts.remove(at: indexPath.row)
+        self.collectionView.deleteItems(at: [indexPath])
+    }
+    
 }
 
 
 // MARK: - Collection View Datasource Methods
 
 extension ViewController : UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if redditFeed.redditPosts.count == 0 {
             self.collectionView.setLoading()
         } else {
             self.collectionView.restore()
         }
+        
         return redditFeed.redditPosts.count
     }
     
+    
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RedditPostCollectionViewCell", for: indexPath) as! RedditPostCollectionViewCell
-        cell.configure(with: redditFeed.redditPosts[indexPath.row])
+        cell.lTitle.text = "\(indexPath.row)"
         return cell
     }
 }
@@ -91,7 +103,7 @@ extension ViewController : UICollectionViewDataSource {
 
 extension ViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.size.width - 20, height: 500)
+        return CGSize(width: UIScreen.main.bounds.size.width - 20, height: 250)
     }
 }
 

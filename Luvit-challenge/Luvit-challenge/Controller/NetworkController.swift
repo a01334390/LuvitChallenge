@@ -32,7 +32,7 @@ class NetworkController {
         }
         
         getData(from: url) { (data, response, error) in
-            guard error != nil else {
+            guard error == nil else {
                 self.logger(message: error?.localizedDescription ?? "Unknown")
                 completion(UIImage())
                 return
