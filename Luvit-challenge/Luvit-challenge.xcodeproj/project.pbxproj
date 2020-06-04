@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BDA4F7852487631D00A51F9C /* RedditPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA4F7842487631D00A51F9C /* RedditPostCollectionViewCell.swift */; };
 		BDA4F7892487651100A51F9C /* ConvenienceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA4F7882487651100A51F9C /* ConvenienceProtocols.swift */; };
 		BDA4F78B24884AA900A51F9C /* UICollectionView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA4F78A24884AA900A51F9C /* UICollectionView+Extensions.swift */; };
+		BDA4F78D248875C900A51F9C /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA4F78C248875C900A51F9C /* NetworkController.swift */; };
+		BDA4F79124889F5600A51F9C /* VRedditCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA4F78F24889F5600A51F9C /* VRedditCollectionViewCell.swift */; };
+		BDA4F79224889F5600A51F9C /* VRedditCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDA4F79024889F5600A51F9C /* VRedditCollectionViewCell.xib */; };
+		BDCC61A02488A5A900C6380E /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCC619F2488A5A900C6380E /* Date+Extensions.swift */; };
 		BDFB1C37248748150084776C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFB1C36248748150084776C /* AppDelegate.swift */; };
 		BDFB1C39248748150084776C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFB1C38248748150084776C /* SceneDelegate.swift */; };
 		BDFB1C3B248748150084776C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFB1C3A248748150084776C /* ViewController.swift */; };
@@ -21,9 +24,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		BDA4F7842487631D00A51F9C /* RedditPostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedditPostCollectionViewCell.swift; sourceTree = "<group>"; };
 		BDA4F7882487651100A51F9C /* ConvenienceProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvenienceProtocols.swift; sourceTree = "<group>"; };
 		BDA4F78A24884AA900A51F9C /* UICollectionView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extensions.swift"; sourceTree = "<group>"; };
+		BDA4F78C248875C900A51F9C /* NetworkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
+		BDA4F78F24889F5600A51F9C /* VRedditCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VRedditCollectionViewCell.swift; sourceTree = "<group>"; };
+		BDA4F79024889F5600A51F9C /* VRedditCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VRedditCollectionViewCell.xib; sourceTree = "<group>"; };
+		BDCC619F2488A5A900C6380E /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		BDFB1C33248748150084776C /* Luvit-challenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Luvit-challenge.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDFB1C36248748150084776C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BDFB1C38248748150084776C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -51,6 +57,7 @@
 			isa = PBXGroup;
 			children = (
 				BDA4F78A24884AA900A51F9C /* UICollectionView+Extensions.swift */,
+				BDCC619F2488A5A900C6380E /* Date+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -61,6 +68,15 @@
 				BDA4F7882487651100A51F9C /* ConvenienceProtocols.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		BDA4F78E24889F3F00A51F9C /* NIUCELL */ = {
+			isa = PBXGroup;
+			children = (
+				BDA4F78F24889F5600A51F9C /* VRedditCollectionViewCell.swift */,
+				BDA4F79024889F5600A51F9C /* VRedditCollectionViewCell.xib */,
+			);
+			path = NIUCELL;
 			sourceTree = "<group>";
 		};
 		BDFB1C2A248748150084776C = {
@@ -108,8 +124,8 @@
 		BDFB1C4B248748730084776C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BDA4F78E24889F3F00A51F9C /* NIUCELL */,
 				BDFB1C3A248748150084776C /* ViewController.swift */,
-				BDA4F7842487631D00A51F9C /* RedditPostCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -118,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				BDFB1C4F248749C40084776C /* RedditFeedController.swift */,
+				BDA4F78C248875C900A51F9C /* NetworkController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -183,6 +200,7 @@
 				BDFB1C43248748170084776C /* LaunchScreen.storyboard in Resources */,
 				BDFB1C40248748170084776C /* Assets.xcassets in Resources */,
 				BDFB1C3E248748160084776C /* Main.storyboard in Resources */,
+				BDA4F79224889F5600A51F9C /* VRedditCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,14 +211,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BDA4F7852487631D00A51F9C /* RedditPostCollectionViewCell.swift in Sources */,
 				BDFB1C3B248748150084776C /* ViewController.swift in Sources */,
 				BDFB1C4E2487491D0084776C /* RedditModel.swift in Sources */,
 				BDFB1C37248748150084776C /* AppDelegate.swift in Sources */,
+				BDCC61A02488A5A900C6380E /* Date+Extensions.swift in Sources */,
 				BDA4F78B24884AA900A51F9C /* UICollectionView+Extensions.swift in Sources */,
 				BDFB1C39248748150084776C /* SceneDelegate.swift in Sources */,
 				BDFB1C50248749C40084776C /* RedditFeedController.swift in Sources */,
 				BDA4F7892487651100A51F9C /* ConvenienceProtocols.swift in Sources */,
+				BDA4F78D248875C900A51F9C /* NetworkController.swift in Sources */,
+				BDA4F79124889F5600A51F9C /* VRedditCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,6 +16,18 @@ class ViewController: UIViewController, UICollectionViewDelegate {
     var refreshControl:UIRefreshControl!
     let redditFeed : RedditFeed = RedditFeed()
     
+    // MARK: - Other views
+    let deleteButton: UIButton = {
+        let button = UIButton()
+        let largeConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large)
+        let image = UIImage(systemName: "minus.circle.fill", withConfiguration: largeConfig)
+        button.setImage(image, for: .normal)
+        button.tintColor = .red
+        button.layer.zPosition = 2
+        return button
+    }()
+    var deleteButtonWasAdded : Bool = false
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,10 +42,12 @@ class ViewController: UIViewController, UICollectionViewDelegate {
     private func initializeCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 10, right: 10)
         collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.layer.zPosition = 1
         self.view.addSubview(collectionView)
         self.logger(message: "Collection View Initialized")
     }
@@ -46,12 +60,33 @@ class ViewController: UIViewController, UICollectionViewDelegate {
         self.collectionView.alwaysBounceVertical = true
     }
     
+    private func addDeleteButton() {
+        guard !deleteButtonWasAdded else { return }
+        deleteButtonWasAdded = true
+        
+        let rootVC = UIApplication.shared.windows.first?.rootViewController
+        let deleteButtonSize: CGFloat = 100
+        deleteButton.frame = CGRect(x: UIScreen.main.bounds.width - deleteButtonSize - 5,
+                                    y: UIScreen.main.bounds.height - deleteButtonSize - 5,
+                                    width: deleteButtonSize,
+                                    height: deleteButtonSize)
+        deleteButton.addTarget(self, action: #selector(deleteAll), for: .touchUpInside)
+        rootVC?.view.addSubview(deleteButton)
+        rootVC?.view.bringSubviewToFront(deleteButton)
+    }
+    
+    @objc func deleteAll() {
+        self.logger(message: "will delete all items.")
+        self.redditFeed.redditPosts.removeAll()
+        self.collectionView.reloadData()
+    }
+    
     @objc func refresh() {
         self.redditFeed.restore()
     }
     
     private func registerCells() {
-        collectionView.register(RedditPostCollectionViewCell.self, forCellWithReuseIdentifier: "RedditPostCollectionViewCell")
+        collectionView.register(UINib(nibName: "VRedditCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "VRedditCollectionViewCell")
         self.logger(message: "Cells successfully registered")
     }
     
@@ -64,23 +99,37 @@ class ViewController: UIViewController, UICollectionViewDelegate {
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.redditFeed.redditPosts.remove(at: indexPath.row)
+        self.collectionView.deleteItems(at: [indexPath])
+    }
 }
 
 
 // MARK: - Collection View Datasource Methods
 
 extension ViewController : UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if redditFeed.redditPosts.count == 0 {
             self.collectionView.setLoading()
         } else {
             self.collectionView.restore()
         }
+        
         return redditFeed.redditPosts.count
     }
     
+    
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RedditPostCollectionViewCell", for: indexPath) as! RedditPostCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VRedditCollectionViewCell", for: indexPath) as! VRedditCollectionViewCell
+        if redditFeed.redditPosts.indices.contains(indexPath.row) {
+            cell.configure(with: redditFeed.redditPosts[indexPath.row])
+        }
         return cell
     }
 }
@@ -89,7 +138,7 @@ extension ViewController : UICollectionViewDataSource {
 
 extension ViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.size.width, height: 100)
+        return CGSize(width: UIScreen.main.bounds.size.width - 20, height: 120)
     }
 }
 
@@ -108,6 +157,7 @@ extension ViewController : RedditFeedDelegate {
         logger(message: "Finished loading posts.")
         logger(message: "Reddit posts available \(redditFeed.redditPosts.count)")
         self.collectionView.reloadData()
+        self.addDeleteButton()
         if self.collectionView.refreshControl != nil {
             logger(message: "Will stop refreshing.")
             self.collectionView.refreshControl!.endRefreshing()
