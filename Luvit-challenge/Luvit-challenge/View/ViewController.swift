@@ -82,6 +82,7 @@ extension ViewController : UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RedditPostCollectionViewCell", for: indexPath) as! RedditPostCollectionViewCell
+        cell.configure(with: redditFeed.redditPosts[indexPath.row])
         return cell
     }
 }

@@ -11,3 +11,7 @@ import Foundation
 protocol LoggableClass {
     func logger(message: String)
 }
+
+protocol PostConfigurator {
+    func configure(with post: Child)
+}
