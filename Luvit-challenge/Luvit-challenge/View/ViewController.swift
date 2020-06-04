@@ -30,6 +30,7 @@ class ViewController: UIViewController, UICollectionViewDelegate {
     private func initializeCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 10, right: 10)
         collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
@@ -89,7 +90,7 @@ extension ViewController : UICollectionViewDataSource {
 
 extension ViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.size.width, height: 100)
+        return CGSize(width: UIScreen.main.bounds.size.width - 20, height: 500)
     }
 }
 
