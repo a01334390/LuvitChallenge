@@ -8,14 +8,20 @@
 
 import UIKit
 
+protocol RedditFeedDelegate {
+    func didFinishLoading()
+}
+
 class RedditFeed : LoggableClass {
     
     //MARK: - Properties
     
     var redditPosts: [Child] = [Child]()
-    private var postLimit: Int = 10
+    private var postLimit: Int = 20
     private var afterHash: String = ""
     private var baseURL: String = "https://www.reddit.com/r/all/top/.json?t=all&limit="
+    private var isLoading: Bool = false
+    var delegate: RedditFeedDelegate?
 
     // MARK: Initializers
     
@@ -30,13 +36,28 @@ class RedditFeed : LoggableClass {
      - Note: All logic regarding pagination is handled by the class. No parameters are required.
      */
     func loadMorePosts() {
+        
+        guard !isLoading else {
+            self.logger(message: "Posts are already loading...")
+            return
+        }
+        
+        isLoading = true
+        
         let completeURL = self.buildURL(withSlice: afterHash)
+        
         guard let url = URL(string: completeURL), UIApplication.shared.canOpenURL(url) else {
             return
         }
         
         let task = URLSession.shared.dataTask(with: url,completionHandler: parsePostsFromResponse(data:response:error:))
         task.resume()
+    }
+    
+    @objc func restore() {
+        redditPosts.removeAll()
+        self.afterHash = ""
+        loadMorePosts()
     }
     
     /**
@@ -62,6 +83,8 @@ class RedditFeed : LoggableClass {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.redditPosts.append(contentsOf: children)
+            self.isLoading = false
+            self.delegate?.didFinishLoading()
         }
     }
     

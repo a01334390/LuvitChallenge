@@ -13,23 +13,41 @@ class ViewController: UIViewController, UICollectionViewDelegate {
     
     // MARK: - Properties
     var collectionView: UICollectionView!
+    var refreshControl:UIRefreshControl!
     let redditFeed : RedditFeed = RedditFeed()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        redditFeed.delegate = self
         self.initializeCollectionView()
+        self.initializeRefreshControl()
         self.registerCells()
     }
     
     // MARK: - Initializers
     private func initializeCollectionView() {
         let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
         collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        collectionView.backgroundColor = .clear
         collectionView.delegate = self
         collectionView.dataSource = self
         self.view.addSubview(collectionView)
         self.logger(message: "Collection View Initialized")
+    }
+    
+    private func initializeRefreshControl() {
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        self.collectionView.refreshControl = refreshControl
+        self.collectionView.alwaysBounceVertical = true
+    }
+    
+    @objc func refresh() {
+        self.redditFeed.restore()
     }
     
     private func registerCells() {
@@ -39,6 +57,13 @@ class ViewController: UIViewController, UICollectionViewDelegate {
     
     // MARK: - Collection View Delegate Methods
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if (redditFeed.redditPosts.count - 10) < indexPath.row {
+            self.logger(message: "Will load more posts...")
+            self.redditFeed.loadMorePosts()
+        }
+    }
+    
 }
 
 
@@ -46,7 +71,12 @@ class ViewController: UIViewController, UICollectionViewDelegate {
 
 extension ViewController : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        if redditFeed.redditPosts.count == 0 {
+            self.collectionView.setLoading()
+        } else {
+            self.collectionView.restore()
+        }
+        return redditFeed.redditPosts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -68,5 +98,19 @@ extension ViewController : UICollectionViewDelegateFlowLayout {
 extension ViewController : LoggableClass {
     func logger(message: String) {
         print("[View Controller] - \(message)")
+    }
+}
+
+// MARK: - Convenience protocol
+
+extension ViewController : RedditFeedDelegate {
+    func didFinishLoading() {
+        logger(message: "Finished loading posts.")
+        logger(message: "Reddit posts available \(redditFeed.redditPosts.count)")
+        self.collectionView.reloadData()
+        if self.collectionView.refreshControl != nil {
+            logger(message: "Will stop refreshing.")
+            self.collectionView.refreshControl!.endRefreshing()
+        }
     }
 }

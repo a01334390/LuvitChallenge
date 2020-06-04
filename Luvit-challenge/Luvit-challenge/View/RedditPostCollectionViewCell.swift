@@ -10,4 +10,18 @@ import UIKit
 
 class RedditPostCollectionViewCell: UICollectionViewCell {
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        #if DEBUG
+        self.backgroundColor = .cyan
+        #endif
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func awakeFromNib() {
+        
+    }
 }
