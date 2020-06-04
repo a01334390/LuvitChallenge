@@ -16,6 +16,9 @@ class ViewController: UIViewController, UICollectionViewDelegate {
     var refreshControl:UIRefreshControl!
     let redditFeed : RedditFeed = RedditFeed()
     
+    // MARK: - Feedback generator
+    let generator = UINotificationFeedbackGenerator()
+    
     // MARK: - Other views
     let deleteButton: UIButton = {
         let button = UIButton()
@@ -100,8 +103,13 @@ class ViewController: UIViewController, UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.redditFeed.redditPosts.remove(at: indexPath.row)
-        self.collectionView.deleteItems(at: [indexPath])
+        if let thumbnail = redditFeed.redditPosts[indexPath.row].data?.thumbnail {
+            NetworkController.shared().downloadImage(from: thumbnail) { thumbnail in
+                self.save(image: thumbnail)
+            }
+        } else {
+            self.save(image: UIImage(named: "robot")!)
+        }
     }
 }
 
@@ -161,6 +169,25 @@ extension ViewController : RedditFeedDelegate {
         if self.collectionView.refreshControl != nil {
             logger(message: "Will stop refreshing.")
             self.collectionView.refreshControl!.endRefreshing()
+        }
+    }
+}
+
+// MARK: - Image Saver Code
+
+extension ViewController {
+
+    func save(image: UIImage) {
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+    }
+
+    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            self.logger(message: "An error occured: \(error.localizedDescription )")
+            generator.notificationOccurred(.error)
+        } else {
+            self.logger(message: "Image was saved successfully.")
+            generator.notificationOccurred(.success)
         }
     }
 }
