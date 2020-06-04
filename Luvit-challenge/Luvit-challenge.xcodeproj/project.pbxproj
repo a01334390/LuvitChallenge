@@ -70,13 +70,21 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		BDA4F78E24889F3F00A51F9C /* NIUCELL */ = {
+		BDA4F78E24889F3F00A51F9C /* Cells */ = {
 			isa = PBXGroup;
 			children = (
 				BDA4F78F24889F5600A51F9C /* VRedditCollectionViewCell.swift */,
 				BDA4F79024889F5600A51F9C /* VRedditCollectionViewCell.xib */,
 			);
-			path = NIUCELL;
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		BDCC61A32488B54500C6380E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BDFB1C3A248748150084776C /* ViewController.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		BDFB1C2A248748150084776C = {
@@ -124,8 +132,8 @@
 		BDFB1C4B248748730084776C /* View */ = {
 			isa = PBXGroup;
 			children = (
-				BDA4F78E24889F3F00A51F9C /* NIUCELL */,
-				BDFB1C3A248748150084776C /* ViewController.swift */,
+				BDCC61A32488B54500C6380E /* Views */,
+				BDA4F78E24889F3F00A51F9C /* Cells */,
 			);
 			path = View;
 			sourceTree = "<group>";
