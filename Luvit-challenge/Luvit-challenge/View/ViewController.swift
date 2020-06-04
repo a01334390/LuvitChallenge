@@ -16,6 +16,9 @@ class ViewController: UIViewController, UICollectionViewDelegate {
     var refreshControl:UIRefreshControl!
     let redditFeed : RedditFeed = RedditFeed()
     
+    // MARK: - Feedback generator
+    let generator = UINotificationFeedbackGenerator()
+    
     // MARK: - Other views
     let deleteButton: UIButton = {
         let button = UIButton()
@@ -170,21 +173,21 @@ extension ViewController : RedditFeedDelegate {
     }
 }
 
+// MARK: - Image Saver Code
 
 extension ViewController {
-    //MARK: - Save image
 
     func save(image: UIImage) {
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
 
-    //MARK: - Save Image callback
-
     @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
         if let error = error {
             self.logger(message: "An error occured: \(error.localizedDescription )")
+            generator.notificationOccurred(.error)
         } else {
             self.logger(message: "Image was saved successfully.")
+            generator.notificationOccurred(.success)
         }
     }
 }

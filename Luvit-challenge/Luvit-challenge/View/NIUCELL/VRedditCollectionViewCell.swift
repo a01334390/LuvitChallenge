@@ -29,6 +29,7 @@ class VRedditCollectionViewCell: UICollectionViewCell {
 
 }
 
+// MARK: - Cell configurator
 
 extension VRedditCollectionViewCell: PostConfigurator {
     func configure(with post: Child) {
@@ -73,6 +74,8 @@ extension VRedditCollectionViewCell: PostConfigurator {
         }
     }
 }
+
+// MARK: - Convenience protocol
 
 extension VRedditCollectionViewCell: LoggableClass {
     func logger(message: String) {
