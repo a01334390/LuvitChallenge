@@ -127,7 +127,9 @@ extension ViewController : UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VRedditCollectionViewCell", for: indexPath) as! VRedditCollectionViewCell
-        cell.configure(with: redditFeed.redditPosts[indexPath.row])
+        if redditFeed.redditPosts.indices.contains(indexPath.row) {
+            cell.configure(with: redditFeed.redditPosts[indexPath.row])
+        }
         return cell
     }
 }
