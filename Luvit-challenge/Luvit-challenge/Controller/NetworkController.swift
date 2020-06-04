@@ -87,10 +87,12 @@ extension NetworkController : LoggableClass {
 
 extension NetworkController {
     func open(sURL: String) {
-        if let url = URL(string: sURL), UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url)
-        } else {
-            self.logger(message: "Invalid URL")
+        DispatchQueue.main.async {
+            if let url = URL(string: sURL), UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+            } else {
+                self.logger(message: "Invalid URL")
+            }
         }
     }
 }

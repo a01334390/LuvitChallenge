@@ -103,9 +103,11 @@ class ViewController: UIViewController, UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let thumbnail = redditFeed.redditPosts[indexPath.row].data?.thumbnail {
-            NetworkController.shared().downloadImage(from: thumbnail) { thumbnail in
+        if let sThumbnail = redditFeed.redditPosts[indexPath.row].data?.thumbnail {
+            NetworkController.shared().downloadImage(from: sThumbnail) { [weak self] thumbnail in
+                guard let self = self else { return }
                 self.save(image: thumbnail)
+                NetworkController.shared().open(sURL: sThumbnail)
             }
         } else {
             self.save(image: UIImage(named: "robot")!)
