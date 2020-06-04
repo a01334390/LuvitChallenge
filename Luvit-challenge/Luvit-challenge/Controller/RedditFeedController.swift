@@ -17,6 +17,7 @@ class RedditFeed : LoggableClass {
     //MARK: - Properties
     
     var redditPosts: [Child] = [Child]()
+    var selectedPosts : [Bool] = []
     private var postLimit: Int = 20
     private var afterHash: String = ""
     private var baseURL: String = "https://www.reddit.com/r/all/top/.json?t=all&limit="
@@ -83,6 +84,7 @@ class RedditFeed : LoggableClass {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.redditPosts.append(contentsOf: children)
+            self.selectedPosts = Array<Bool>(repeating: false, count: self.redditPosts.count)
             self.isLoading = false
             self.delegate?.didFinishLoading()
         }

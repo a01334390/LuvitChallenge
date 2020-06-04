@@ -17,16 +17,32 @@ class VRedditCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var lAuthor: UILabel!
     @IBOutlet weak var lDatetime: UILabel!
     @IBOutlet weak var lComments: UILabel!
+    @IBOutlet weak var vReadStatus: UIView!
     
-    // MARK: - Passed down configuration
+    // MARK: - Other Properties
+    var hasBeenSelected: Bool = false
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         self.layer.cornerRadius = 10
+        self.vReadStatus.layer.cornerRadius = 15
         self.iThumbnail.layer.cornerRadius = 15
     }
 
+}
+
+// MARK: - Cell Reader Methods
+
+extension VRedditCollectionViewCell {
+    func setSelected() {
+        hasBeenSelected = true
+    }
+    
+    override func prepareForReuse() {
+        vReadStatus.backgroundColor = .orange
+        super.prepareForReuse()
+    }
 }
 
 // MARK: - Cell configurator

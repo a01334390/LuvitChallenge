@@ -31,7 +31,7 @@ class ViewController: UIViewController, UICollectionViewDelegate {
     }()
     var deleteButtonWasAdded : Bool = false
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -103,6 +103,7 @@ class ViewController: UIViewController, UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // Save the image into the Photo Library
         if let sThumbnail = redditFeed.redditPosts[indexPath.row].data?.thumbnail {
             NetworkController.shared().downloadImage(from: sThumbnail) { [weak self] thumbnail in
                 guard let self = self else { return }
@@ -111,6 +112,11 @@ class ViewController: UIViewController, UICollectionViewDelegate {
             }
         } else {
             self.save(image: UIImage(named: "robot")!)
+        }
+        
+        // Set selected cell in array
+        if redditFeed.selectedPosts.indices.contains(indexPath.row) {
+            self.redditFeed.selectedPosts[indexPath.row] = true
         }
     }
 }
@@ -137,8 +143,15 @@ extension ViewController : UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VRedditCollectionViewCell", for: indexPath) as! VRedditCollectionViewCell
+        
         if redditFeed.redditPosts.indices.contains(indexPath.row) {
             cell.configure(with: redditFeed.redditPosts[indexPath.row])
+            if redditFeed.selectedPosts.indices.contains(indexPath.row),
+                redditFeed.selectedPosts[indexPath.row] {
+                cell.vReadStatus.backgroundColor = .green
+            } else {
+                cell.vReadStatus.backgroundColor = .orange
+            }
         }
         return cell
     }
@@ -178,11 +191,11 @@ extension ViewController : RedditFeedDelegate {
 // MARK: - Image Saver Code
 
 extension ViewController {
-
+    
     func save(image: UIImage) {
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
-
+    
     @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
         if let error = error {
             self.logger(message: "An error occured: \(error.localizedDescription )")
