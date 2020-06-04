@@ -81,6 +81,18 @@ extension NetworkController : LoggableClass {
     func logger(message: String) {
         print("[Network Controller] - \(message)")
     }
-    
-    
+}
+
+// MARK: - Network related
+
+extension NetworkController {
+    func open(sURL: String) {
+        DispatchQueue.main.async {
+            if let url = URL(string: sURL), UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+            } else {
+                self.logger(message: "Invalid URL")
+            }
+        }
+    }
 }
