@@ -27,26 +27,26 @@ class NetworkController {
     private func downloadImage(from url: URL, completion: @escaping (UIImage) -> ()){
         guard UIApplication.shared.canOpenURL(url) else {
             self.logger(message: "URL is invalid.")
-            completion(UIImage())
+            completion(UIImage(named: "robot")!)
             return
         }
         
         getData(from: url) { (data, response, error) in
             guard error == nil else {
                 self.logger(message: error?.localizedDescription ?? "Unknown")
-                completion(UIImage())
+                completion(UIImage(named: "robot")!)
                 return
             }
             
             guard let data = data else {
                 self.logger(message: "Data is empty or nil.")
-                completion(UIImage())
+                completion(UIImage(named: "robot")!)
                 return
             }
             
             guard let image = UIImage(data: data) else {
                 self.logger(message: "Data downloaded is not of image type.")
-                completion(UIImage())
+                completion(UIImage(named: "robot")!)
                 return
             }
             
@@ -60,7 +60,7 @@ class NetworkController {
         guard let url = URL(string: string),
             UIApplication.shared.canOpenURL(url) else {
                 self.logger(message: "URL string is invalid.")
-                completion(UIImage())
+                completion(UIImage(named: "robot")!)
                 return
         }
         

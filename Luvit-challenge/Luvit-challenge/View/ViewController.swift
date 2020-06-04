@@ -86,7 +86,7 @@ class ViewController: UIViewController, UICollectionViewDelegate {
     }
     
     private func registerCells() {
-        collectionView.register(RedditPostCollectionViewCell.self, forCellWithReuseIdentifier: "RedditPostCollectionViewCell")
+        collectionView.register(UINib(nibName: "VRedditCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "VRedditCollectionViewCell")
         self.logger(message: "Cells successfully registered")
     }
     
@@ -103,7 +103,6 @@ class ViewController: UIViewController, UICollectionViewDelegate {
         self.redditFeed.redditPosts.remove(at: indexPath.row)
         self.collectionView.deleteItems(at: [indexPath])
     }
-    
 }
 
 
@@ -127,8 +126,8 @@ extension ViewController : UICollectionViewDataSource {
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RedditPostCollectionViewCell", for: indexPath) as! RedditPostCollectionViewCell
-        cell.lTitle.text = "\(indexPath.row)"
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VRedditCollectionViewCell", for: indexPath) as! VRedditCollectionViewCell
+        cell.configure(with: redditFeed.redditPosts[indexPath.row])
         return cell
     }
 }
@@ -137,7 +136,7 @@ extension ViewController : UICollectionViewDataSource {
 
 extension ViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.size.width - 20, height: 250)
+        return CGSize(width: UIScreen.main.bounds.size.width - 20, height: 120)
     }
 }
 
